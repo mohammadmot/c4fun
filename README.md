@@ -6,5 +6,5 @@ cpp code with friends
 - kioumars babakhani * new 
 
 # compile in linux terminal
-- copile and build cpp file: g++ 1.cpp -o 1.o
+- compile and build cpp file: g++ 1.cpp -o 1.o
 - execute build file "1.o": ./1.o
