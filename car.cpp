@@ -1,5 +1,9 @@
 #include <iostream>
 using namespace std;
+
+// abstract class = have to at least one pure virtual function
+// concret class = has no pure virtual function
+
 class CCar
 {
 private:
@@ -42,7 +46,10 @@ public:
     {
         SetWheel(4);
     }
-    virtual bool CreateEngine(){}; // Error if this declaration was not here.
+
+    // Error if this declaration was not here.
+    bool CreateEngine() {};
+    
     virtual void func()
     {
         cout << "Benz Func Called!\r\n";
@@ -67,15 +74,18 @@ public:
     }
 };
 
+// vtable = virtual table map
+// function_virtual | refrence have to body {...}
+
 int main()
 {
     // Static and Dynamic Memory Allocation
     {
-        CBenz ocBenz("Static");
+        CBenz ocBenz("Static-Memory = Stack");
         ocBenz.func();
     }
     {
-        CBenz *pBenz = new CBenz("Dynamic");
+        CBenz *pBenz = new CBenz("Dynamic-Memory = Heap");
         if (pBenz)
             pBenz->func();
     }
