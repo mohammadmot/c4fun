@@ -7,12 +7,10 @@ public:
     CCar(std::unique_ptr<IEngine> &&engine)
         : m_engine(std::move(engine))
     {
-    }
-    CCar(IEngine *pEngine)
-    {
-        m_pEngine = pEngine;
+        m_pEngine = NULL;
     }
 
+    CCar(IEngine *pEngine) : m_pEngine(std::move(pEngine)){};
     void Drive();
 
 private:
