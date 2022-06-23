@@ -8,7 +8,7 @@ class MySingleton{
 public:
   static MySingleton& getInstance()
   {
-    static MySingleton instance;
+    static MySingleton instance; // c++11 is thread safe
     volatile int dummy{};
     return instance;
   }
