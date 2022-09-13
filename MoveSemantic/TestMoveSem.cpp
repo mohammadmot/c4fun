@@ -1,10 +1,16 @@
+// Move Semantics in C++
+// ref: https://www.youtube.com/watch?v=ehMg6zvXuMY
+
 using namespace std;
+
 #include <iostream>
 #include <memory.h>
+
 class CStringEx
 {
 public:
     CStringEx() = default;
+
     CStringEx(const char *data)
     {
         printf("Created!\n");
@@ -12,6 +18,8 @@ public:
         m_pData = new char[m_nSize];
         memcpy(m_pData, data, m_nSize);
     }
+
+    // copy constructor
     CStringEx(const CStringEx &other)
     {
         printf("Copied\n");
@@ -19,7 +27,9 @@ public:
         m_pData = new char[m_nSize];
         memcpy(m_pData, other.m_pData, m_nSize);
     }
-    CStringEx(CStringEx &&other)
+
+    // move constructor, shallow copy = optimize
+    CStringEx(CStringEx &&other) // [&&] R-Value reference, is that temporary
     {
         printf("Moved!\n");
         m_nSize = other.m_nSize;
@@ -27,11 +37,13 @@ public:
         other.m_nSize = 0;
         other.m_pData = nullptr;
     }
+
     ~CStringEx()
     {
         printf("Destroyed!\n");
         delete m_pData;
     }
+
     void Print()
     {
         cout << "Printed Value: ";
@@ -53,7 +65,7 @@ public:
         : m_strLog(log)
     {
     }
-    CLogger(CStringEx &&log)
+    CLogger(CStringEx &&log) // R-Value call this
         : m_strLog(std::move(log))
     {
     }
@@ -68,7 +80,7 @@ private:
 
 int main()
 {
-    CLogger logger(CStringEx("MoveSemantic"));
+    CLogger logger(CStringEx("MoveSemantic")); // R-Value reference, is that temporary
     logger.Print();
     return 0;
 }

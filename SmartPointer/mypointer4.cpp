@@ -15,7 +15,7 @@ Share Pointer:
     *The reference count becomes zero. the last remaining SharePtr object is destroyed.
     *The last remaining SharePtr object owning the pointer is assigned with some other pointer.
 
-
+- [unique_ptr] where there is only [one owner] of the underlying raw pointer.
 - it's a smart pointer which is stack allocate object that wrap raw pointer
 - when last reference of the object in memory is destructed,
   wrapped pointer will also be deleted
