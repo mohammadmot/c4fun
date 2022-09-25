@@ -28,7 +28,9 @@ int main()
     */
     CCar m_pV8(std::make_unique<CV8Engine>("V8"));
     m_pV8.Drive();
+
     CCar m_pLexus(std::make_unique<CLexusEngine>("Lexus"));
     m_pLexus.Drive();
+
     return 0;
 }

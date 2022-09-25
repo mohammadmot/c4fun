@@ -168,6 +168,7 @@ int main()
     //
     //   R-Value is temporary
     //   L-Value is variable and have storage in them
+    //
     //   L-Value references accept L-Value unless const
     //   R-Value references can only take temporary R-Values
     //

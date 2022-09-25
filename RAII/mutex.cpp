@@ -12,7 +12,7 @@ which binds the life cycle of a resource that must be acquired before use
  disk space
  database connection
  anything that exists in limited supply
-to the lifetime of an object.
+to the [lifetime of an object].
 
 - Notes:
   RAII [does not apply] to the management of the resources that are not acquired
@@ -32,8 +32,10 @@ to the lifetime of an object.
    order of initialization
    and stack unwinding
   to eliminate resource leaks and guarantee exception safety.
-- Another name for this technique is Scope-Bound Resource Management (SBRM),
-  after the basic use case where the lifetime of an RAII object ends due to scope exit.
+- Another name for this technique is [Scope-Bound Resource Management] (SBRM),
+  after the basic use case where the [lifetime] of an RAII object ends
+  due to [scope exit].
+
 
 RAII can be summarized as follows:
     1. encapsulate each resource into a class, where
@@ -82,30 +84,30 @@ std::mutex m;
 
 void f()
 {
-    // ...
+  // ...
 }
 
 bool everything_ok()
 {
-    // ...
-    return false;
+  // ...
+  return false;
 }
 
 void bad()
 {
-    m.lock(); // acquire the mutex
-    f();      // if f() throws an exception, the mutex is never released
-    if (!everything_ok())
-        return; // early return, the mutex is never released
-    m.unlock(); // if bad() reaches this statement, the mutex is released
+  m.lock(); // acquire the mutex
+  f();      // if f() throws an exception, the mutex is never released
+  if (!everything_ok())
+    return;   // early return, the mutex is never released
+  m.unlock(); // if bad() reaches this statement, the mutex is released
 }
 
 void good()
 {
-    std::lock_guard<std::mutex> lk(m); // RAII class: mutex acquisition is initialization
-    f();                               // if f() throws an exception, the mutex is released
-    if (!everything_ok())
-        return; // early return, the mutex is released
+  std::lock_guard<std::mutex> lk(m); // RAII class: mutex acquisition is initialization
+  f();                               // if f() throws an exception, the mutex is released
+  if (!everything_ok())
+    return; // early return, the mutex is released
 }
 
 //===================================================
@@ -127,37 +129,37 @@ using namespace std;
 
 struct X
 {
-    int m;
-    // ..
+  int m;
+  // ..
 };
 
 void ff()
 {
-    std::unique_ptr<X> p(new X);
-    X *q = new X;
+  std::unique_ptr<X> p(new X);
+  X *q = new X;
 
-    p->m++; // do not [leaked], use p just like a pointer
-    q->m++; // may be [leaked]
+  p->m++; // do not [leaked], use p just like a pointer
+  q->m++; // may be [leaked]
 
-    // ... [if exception occurs]
+  // ... [if exception occurs]
 
-    delete q;
+  delete q;
 }
 
 //===================================================
 int main()
 {
-    unique_ptr<X> p(new X);
-    unique_ptr<X> q = move(p);
-    cout << "p: " << p.get() << " q: " << q.get() << "\n";
+  unique_ptr<X> p(new X);
+  unique_ptr<X> q = move(p);
+  cout << "p: " << p.get() << " q: " << q.get() << "\n";
 
-    printf("std::mutex [lock,unlock] or [lock_guard]");
+  printf("std::mutex [lock,unlock] or [lock_guard]");
 
-    good();
+  good();
 
-    bad();
+  bad();
 
-    // ...
+  // ...
 
-    return 0;
+  return 0;
 }
